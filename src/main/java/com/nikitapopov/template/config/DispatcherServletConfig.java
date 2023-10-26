@@ -5,7 +5,7 @@ import jakarta.servlet.ServletContext;
 import jakarta.servlet.ServletException;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class CustomDispatcherServlet extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DispatcherServletConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
     @Override
     protected Class<?>[] getRootConfigClasses() {
         return null;
