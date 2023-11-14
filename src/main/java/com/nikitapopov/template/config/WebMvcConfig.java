@@ -5,27 +5,33 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.type.AnnotationMetadata;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.filter.CharacterEncodingFilter;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.resource.ResourceUrlEncodingFilter;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
+import javax.sql.DataSource;
+import java.sql.DriverManager;
+import java.util.Objects;
+
 @Configuration
 @ComponentScan("com.nikitapopov.template")
+@PropertySource("classpath:/application.properties")
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
-    private ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
+    private final Environment environment;
 
     @Autowired
-    public WebMvcConfig(ApplicationContext applicationContext) {
+    public WebMvcConfig(ApplicationContext applicationContext, Environment environment) {
         this.applicationContext = applicationContext;
+        this.environment = environment;
     }
 
     @Bean
@@ -48,6 +54,23 @@ public class WebMvcConfig implements WebMvcConfigurer {
         templateEngine.setEnableSpringELCompiler(true);
 
         return templateEngine;
+    }
+
+    @Bean
+    public DataSource dataSource() {
+        DriverManagerDataSource dataSource = new DriverManagerDataSource();
+
+        dataSource.setDriverClassName(Objects.requireNonNull(environment.getProperty("database.driver.class")));
+        dataSource.setUrl(environment.getProperty("database.url"));
+        dataSource.setUsername(environment.getProperty("database.admin.login"));
+        dataSource.setPassword(environment.getProperty("database.admin.password"));
+
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
     }
 
     @Override
