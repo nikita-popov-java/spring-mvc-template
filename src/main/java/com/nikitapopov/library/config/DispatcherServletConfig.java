@@ -1,4 +1,4 @@
-package com.nikitapopov.template.config;
+package com.nikitapopov.library.config;
 
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import jakarta.servlet.ServletContext;

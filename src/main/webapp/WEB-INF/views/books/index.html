@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Книги</title>
+</head>
+<body>
+<h3>Книги, доступные в Library-MVC:</h3>
+<br/>
+<ul class="books-list">
+    <li th:each="book : ${books}">
+        <a th:href="@{books/{id}(id=${book.getId()})}"
+           th:text="${book.getName() + ', '
+                    + book.getAuthor() + ' - '
+                    + (book.getHolderId() != null ? 'на руках' : 'в библиотеке')}">
+            BOOK INFO
+        </a>
+    </li>
+</ul>
+</body>
+</html>

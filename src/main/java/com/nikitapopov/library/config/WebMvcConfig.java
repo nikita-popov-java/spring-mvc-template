@@ -1,4 +1,4 @@
-package com.nikitapopov.template.config;
+package com.nikitapopov.library.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -21,7 +21,7 @@ import java.sql.DriverManager;
 import java.util.Objects;
 
 @Configuration
-@ComponentScan("com.nikitapopov.template")
+@ComponentScan("com.nikitapopov.library")
 @PropertySource("classpath:/application.properties")
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
@@ -82,4 +82,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
         registry.viewResolver(resolver);
     }
+
+
 }
