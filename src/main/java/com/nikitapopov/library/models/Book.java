@@ -1,9 +1,18 @@
 package com.nikitapopov.library.models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+
+import java.util.Calendar;
+import java.util.Date;
+
 public class Book {
     private int id;
+    @NotBlank(message = "Название книги не может быть пустым!")
     private String name;
+    @NotBlank(message = "У книги не может не быть автора!")
     private String author;
+    @Max(value = 2023, message = "Книга не может быть написана позже 2023 года! (на момент разработки приложения)")
     private int yearOfCreated;
     private Integer holderId;
 

@@ -1,8 +1,15 @@
 package com.nikitapopov.library.models;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+
 public class Person {
     private int id;
+    @NotBlank(message = "Имя пользователя не может быть пустым!")
+    @Pattern(regexp = "([а-яА-Я]*? ){2}([а-яА-Я]*?)")
     private String fullName;
+    @Max(value = 2023, message = "Человек не может быть рождён позже 2023 года! (на момент разработки приложения)")
     private int yearOfBirth;
 
     public Person() {}
