@@ -27,12 +27,13 @@ public class BooksValidator implements Validator {
     @Override
     public void validate(Object target, Errors errors) {
         Book book = (Book) target;
+        Book existingBook = bookDAO.show(book.getId());
 
-        if (personDAO.show(book.getHolderId()) == null) {
+        if (book.getHolderId() != null
+                && personDAO.show(book.getHolderId()) == null) {
             errors.rejectValue("holderId", "", "Пользователя с таким ID не существует!");
         }
 
-        Book existingBook = bookDAO.show(book.getId());
         if (existingBook != null
                 && existingBook.getName().equals(book.getName())
                 && existingBook.getAuthor().equals(book.getAuthor())) {

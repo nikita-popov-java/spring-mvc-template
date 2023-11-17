@@ -1,6 +1,7 @@
 package com.nikitapopov.library.models;
 
 import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 
 import java.util.Calendar;
@@ -64,6 +65,10 @@ public class Book {
 
     public void setHolderId(Integer holderId) {
         this.holderId = holderId;
+    }
+
+    public boolean isFree() {
+        return holderId == null;
     }
 
     @Override

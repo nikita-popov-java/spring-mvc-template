@@ -70,4 +70,13 @@ public class BookDAO extends AbstractLibraryDAO<Book> {
     public void delete(int id) {
         template.update("DELETE FROM book WHERE id=?", id);
     }
+
+    public List<Book> getUserBooks(int id) {
+        return template.query("SELECT * FROM book WHERE holder_id=?", new BeanPropertyRowMapper<>(Book.class), id)
+                .stream().toList();
+    }
+
+    public void setBookToUser(int bookId, Integer userId) {
+        template.update("UPDATE book SET holder_id=? WHERE id=?", userId, bookId);
+    }
 }

@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Edit book</title>
+    <title>Добавить новую книгу</title>
 </head>
 <body>
-<form th:action="@{/books/{id}(id=${book.getId()})}" th:method="PATCH" th:object="${book}">
+<form th:action="@{/books}" th:method="POST" th:object="${book}">
     <div>
         <label for="name">Название книги: </label>
         <input type="text" id="name" th:field="*{name}">
@@ -28,7 +28,7 @@
     </div>
     <div>
         <label for="yearOfCreated">Год написания: </label>
-        <input type="number" max="3000" id="yearOfCreated" th:field="*{yearOfCreated}">
+        <input type="number" max="30000" id="yearOfCreated" th:field="*{yearOfCreated}">
         <p style="color: red"
            class="errors"
            th:if="${#fields.hasErrors('yearOfCreated')}"
@@ -47,7 +47,7 @@
         </p>
     </div>
 
-    <input type="submit" value="Изменить книгу">
+    <input type="submit" value="Добавить книгу в каталог">
 </form>
 </body>
 </html>

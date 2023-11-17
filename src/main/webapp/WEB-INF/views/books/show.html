@@ -21,11 +21,45 @@
             YEAR
         </b>
     </p>
-    <p>Держатель:
-        <b th:text="${holder != null ? holder.getFullName() : 'в библиотеке'}">
-            HOLDER
-        </b>
-    </p>
+
+    <form th:if="${book.isFree()}"
+          th:action="@{/books/{id}(id=${book.getId()})}"
+          th:object="${holder}"
+          th:method="PUT">
+
+        <label for="peopleList">Книга свободна. Назначьте читателя:</label>
+        <b th:if="${people.size() == 0}">Читателей нет!</b>
+        <select th:if="${people.size() != 0}" name="peopleList" id="peopleList" th:field="*{id}">
+            <option th:each="person : ${people}"
+                    th:value="${person.getId()}"
+                    th:text="${person.getFullName()}">
+                ФАМИЛИЯ ИМЯ ОТЧЕСТВО
+            </option>
+        </select>
+
+        <input th:if="${people.size() != 0}" type="submit" value="Назначить">
+    </form>
+
+    <form th:if="${!book.isFree()}"
+          th:action="@{/books/{id}(id=${book.getId()}, free=true)}"
+          th:method="PUT">
+
+        <span>Держатель:
+            <b th:text="${holder.getFullName()}">
+                HOLDER
+            </b>
+        </span>
+
+        <input type="submit" value="Освободить книгу">
+    </form>
+    <hr/>
+    <form th:action="@{/books/{id}/edit (id=${book.getId()})}" th:method="GET">
+        <input type="submit" value="Редактировать информацию">
+    </form>
+    <br/>
+    <form th:action="@{/books/{id} (id=${book.getId()})}" th:method="DELETE">
+        <input type="submit" value="Удалить">
+    </form>
 </div>
 </body>
 </html>

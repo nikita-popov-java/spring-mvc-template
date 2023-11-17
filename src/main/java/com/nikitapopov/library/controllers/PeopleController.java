@@ -1,7 +1,7 @@
 package com.nikitapopov.library.controllers;
 
+import com.nikitapopov.library.dao.BookDAO;
 import com.nikitapopov.library.dao.PersonDAO;
-import com.nikitapopov.library.models.Book;
 import com.nikitapopov.library.models.Person;
 import com.nikitapopov.library.utils.PeopleValidator;
 import jakarta.validation.Valid;
@@ -17,11 +17,13 @@ import java.util.Calendar;
 @RequestMapping("/people")
 public class PeopleController {
     private final PersonDAO personDAO;
+    private final BookDAO bookDAO;
     private final PeopleValidator peopleValidator;
 
     @Autowired
-    public PeopleController(PersonDAO personDAO, PeopleValidator peopleValidator) {
+    public PeopleController(PersonDAO personDAO, BookDAO bookDAO, PeopleValidator peopleValidator) {
         this.personDAO = personDAO;
+        this.bookDAO = bookDAO;
         this.peopleValidator = peopleValidator;
     }
 
@@ -32,11 +34,18 @@ public class PeopleController {
         return "people/index";
     }
 
+    @GetMapping("/new")
+    public String create(@ModelAttribute("person") Person person) {
+
+        return "people/new";
+    }
+
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
 
         model.addAttribute("person", personDAO.show(id));
         model.addAttribute("currentYear", Calendar.getInstance().get(Calendar.YEAR));
+        model.addAttribute("books", bookDAO.getUserBooks(id));
 
         return "people/show";
     }
@@ -54,9 +63,31 @@ public class PeopleController {
 
         peopleValidator.validate(person, result);
         if (result.hasErrors())
-            return "peopls/edit";
+            return "people/new";
 
         personDAO.save(person);
+
+        return "redirect:/people";
+    }
+
+    @PatchMapping("/{id}")
+    public String change(@PathVariable("id") int id,
+                         @ModelAttribute("person") Person person,
+                         BindingResult result) {
+
+        peopleValidator.validate(person, result);
+        if (result.hasErrors())
+            return "people/edit";
+
+        personDAO.update(id, person);
+
+        return "redirect:/people";
+    }
+
+    @DeleteMapping("/{id}")
+    public String delete(@PathVariable("id") int id) {
+
+        personDAO.delete(id);
 
         return "redirect:/people";
     }
