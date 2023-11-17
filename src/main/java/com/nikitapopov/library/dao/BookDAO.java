@@ -78,7 +78,7 @@ public class BookDAO extends AbstractLibraryDAO<Book> {
     }
 
     public Person getBookHolder(int bookId) {
-        return template.query("SELECT person.id, person.full_name, person.year_of_birth " +
+        return template.query("SELECT person.* " +
                                 "FROM book INNER JOIN person ON book.holder_id=person.id " +
                                 "WHERE book.id=?", new BeanPropertyRowMapper<>(Person.class), bookId)
                 .stream()
