@@ -46,7 +46,7 @@ public class BooksController {
         model.addAttribute("book", book);
         model.addAttribute("holder", book.isFree()
                 ? new Person()
-                : personDAO.show(book.getHolderId()));
+                : bookDAO.getBookHolder(id));
 
         if (book.isFree()) {
             model.addAttribute("people", personDAO.index());
@@ -91,7 +91,7 @@ public class BooksController {
     @PutMapping("/{id}")
     public String setHolder(@PathVariable("id") int id,
                             @RequestParam(value = "free", required = false) boolean free,
-                            @ModelAttribute("emptyUser") Person person) {
+                            @ModelAttribute("holder") Person person) {
 
         if (bookDAO.show(id) != null) {
             bookDAO.setBookToUser(id, free ? null : person.getId());

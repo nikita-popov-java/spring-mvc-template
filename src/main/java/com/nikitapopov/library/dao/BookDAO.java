@@ -1,6 +1,7 @@
 package com.nikitapopov.library.dao;
 
 import com.nikitapopov.library.models.Book;
+import com.nikitapopov.library.models.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -74,6 +75,15 @@ public class BookDAO extends AbstractLibraryDAO<Book> {
     public List<Book> getUserBooks(int id) {
         return template.query("SELECT * FROM book WHERE holder_id=?", new BeanPropertyRowMapper<>(Book.class), id)
                 .stream().toList();
+    }
+
+    public Person getBookHolder(int bookId) {
+        return template.query("SELECT person.id, person.full_name, person.year_of_birth " +
+                                "FROM book INNER JOIN person ON book.holder_id=person.id " +
+                                "WHERE book.id=?", new BeanPropertyRowMapper<>(Person.class), bookId)
+                .stream()
+                .findAny()
+                .orElse(null);
     }
 
     public void setBookToUser(int bookId, Integer userId) {
