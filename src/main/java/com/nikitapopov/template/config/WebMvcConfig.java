@@ -1,4 +1,4 @@
-package com.nikitapopov.library.config;
+package com.nikitapopov.template.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -17,12 +17,11 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 
 import javax.sql.DataSource;
-import java.sql.DriverManager;
 import java.util.Objects;
 
 @Configuration
 @ComponentScan("com.nikitapopov.library")
-@PropertySource("classpath:/application.properties")
+@PropertySource("classpath:/application.properties.origin")
 @EnableWebMvc
 public class WebMvcConfig implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;

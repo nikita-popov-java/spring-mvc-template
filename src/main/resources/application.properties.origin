@@ -1,0 +1,4 @@
+database.url=
+database.driver.class=
+database.admin.login=
+database.admin.password=
