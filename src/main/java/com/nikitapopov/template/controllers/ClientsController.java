@@ -68,7 +68,7 @@ public class ClientsController {
                          @ModelAttribute("client") @Valid Client client,
                          BindingResult result) {
 
-        clientsValidator.validate(client, result);
+//        clientsValidator.validate(client, result);
         if (result.hasErrors())
             return "clients/edit";
 
