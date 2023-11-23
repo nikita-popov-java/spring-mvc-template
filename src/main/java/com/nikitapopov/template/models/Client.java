@@ -102,6 +102,11 @@ public class Client {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
+
     @Override
     public String toString() {
         return String.format("%d;%s;%s;%s;%s;%s", id, fullName, phone, email, visitingDate, dentistFullName);

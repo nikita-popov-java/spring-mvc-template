@@ -1,7 +1,7 @@
 package com.nikitapopov.template.controllers;
 
-import com.nikitapopov.template.dao.ClientDAO;
 import com.nikitapopov.template.models.Client;
+import com.nikitapopov.template.services.ClientsService;
 import com.nikitapopov.template.util.ClientsValidator;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.*;
 @Controller
 @RequestMapping("/clients")
 public class ClientsController {
-    private final ClientDAO clientDAO;
+    private final ClientsService clientsService;
     private final ClientsValidator clientsValidator;
 
     @Autowired
-    public ClientsController(ClientDAO clientDAO, ClientsValidator clientsValidator) {
-        this.clientDAO = clientDAO;
+    public ClientsController(ClientsService clientsService, ClientsValidator clientsValidator) {
+        this.clientsService = clientsService;
         this.clientsValidator = clientsValidator;
     }
 
     @GetMapping()
     public String index(Model model) {
 
-        model.addAttribute("clients", clientDAO.index());
+        model.addAttribute("clients", clientsService.findAll());
 
         return "clients/index";
     }
@@ -37,7 +37,7 @@ public class ClientsController {
         if (result.hasErrors())
             return "clients/new";
 
-        clientDAO.save(client);
+        clientsService.save(client);
 
         return "redirect:/clients";
     }
@@ -45,10 +45,12 @@ public class ClientsController {
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
 
-        if (clientDAO.show(id) == null)
+        Client findedClient = clientsService.find(id);
+
+        if (findedClient == null)
             return "redirect:/clients";
 
-        model.addAttribute("client", clientDAO.show(id));
+        model.addAttribute("client", findedClient);
 
         return "clients/show";
     }
@@ -56,7 +58,7 @@ public class ClientsController {
     @DeleteMapping("/{id}")
     public String delete(@PathVariable("id") int id) {
 
-        clientDAO.delete(id);
+        clientsService.delete(id);
 
         return "redirect:/clients";
     }
@@ -66,11 +68,10 @@ public class ClientsController {
                          @ModelAttribute("client") @Valid Client client,
                          BindingResult result) {
 
-//        clientsValidator.validate(client, result);
         if (result.hasErrors())
             return "clients/edit";
 
-        clientDAO.update(id, client);
+        clientsService.update(id, client);
 
         return "redirect:/clients";
     }
@@ -78,7 +79,7 @@ public class ClientsController {
     @GetMapping("/{id}/edit")
     public String edit(@PathVariable("id") int id, Model model) {
 
-        model.addAttribute("client", clientDAO.show(id));
+        model.addAttribute("client", clientsService.find(id));
 
         return "clients/edit";
     }

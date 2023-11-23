@@ -1,7 +1,7 @@
 package com.nikitapopov.template.util;
 
-import com.nikitapopov.template.dao.ClientDAO;
 import com.nikitapopov.template.models.Client;
+import com.nikitapopov.template.services.ClientsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -11,11 +11,11 @@ import java.util.Arrays;
 
 @Component
 public class ClientsValidator implements Validator {
-    private final ClientDAO clientDAO;
+    private final ClientsService clientsService;
 
     @Autowired
-    public ClientsValidator(ClientDAO clientDAO) {
-        this.clientDAO = clientDAO;
+    public ClientsValidator(ClientsService clientsService) {
+        this.clientsService = clientsService;
     }
 
     @Override
@@ -28,7 +28,7 @@ public class ClientsValidator implements Validator {
         Client client = (Client) target;
 
         // checking
-        if (clientDAO.show(client.getEmail()).isPresent()) {
+        if (clientsService.find(client.getEmail()).isPresent()) {
             errors.rejectValue("email", "", "Пользователь с таким email уже существует!");
         }
 
