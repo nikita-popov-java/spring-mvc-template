@@ -18,10 +18,8 @@ public class ClientsController {
 
     @Autowired
     public ClientsController(ClientDAO clientDAO, ClientsValidator clientsValidator) {
-        System.out.println("controller is creating...");
         this.clientDAO = clientDAO;
         this.clientsValidator = clientsValidator;
-        System.out.println("controller was created...");
     }
 
     @GetMapping()
