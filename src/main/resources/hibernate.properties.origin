@@ -1,0 +1,10 @@
+# data source
+hibernate.driver_class=
+hibernate.connection.url=
+hibernate.connection.username=
+hibernate.connection.password=
+
+# hibernate
+hibernate.dialect=
+hibernate.show_sql=true
+hibernate.current_session_context_class=thread
