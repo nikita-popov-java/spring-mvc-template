@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Добавить клиента</title>
+    <style>
+        .errors{
+            color: red;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<form th:action="@{/clients}" th:method="POST" th:object="${client}">
+    <label for="fullName">Введите полное имя клиента: </label>
+    <input type="text" name="fullName" id="fullName" th:value="*{fullName}">
+    <div class="errors" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}">ERROR</div>
+
+    <br/>
+    <br/>
+
+    <label for="phone">Введите номер телефона клиента: </label>
+    <input type="text" name="phone" id="phone" th:value="*{phone}">
+    <div class="errors" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}">ERROR</div>
+
+    <br/>
+    <br/>
+
+    <label for="email">Введите email клиента: </label>
+    <input type="text" name="email" id="email" th:value="*{email}">
+    <div class="errors" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">ERROR</div>
+
+    <br/>
+    <br/>
+
+    <label for="visitingDate">Введите время приёма клиента (год-месяц-день): </label>
+    <input type="text" pattern="^[0-9]{2}-?[0-9]{2}-(1[0-2]|0?[1-9])-(3[01]|[12][0-9]|0?[1-9])$" name="visitingDate" id="visitingDate" th:value="*{visitingDate}">
+    <div class="errors" th:if="${#fields.hasErrors('visitingDate')}" th:errors="*{visitingDate}">ERROR</div>
+
+    <br/>
+    <br/>
+
+    <label for="dentistFullName">Введите полное имя лечащего врача: </label>
+    <input type="text" name="dentistFullName" id="dentistFullName" th:value="*{dentistFullName}">
+    <div class="errors" th:if="${#fields.hasErrors('dentistFullName')}" th:errors="*{dentistFullName}">ERROR</div>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <input type="submit" value="Создать запись">
+</form>
+</body>
+</html>

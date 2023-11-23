@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Карточка клиента</title>
+    <style>
+        body {
+            padding: 30px 15px;
+        }
+
+        .client-field {
+            background-color: #dbdeff;
+            padding: 10px 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            width: 600px;
+        }
+
+        .client-field__title {
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .client-field__value {
+            font-weight: 400;
+            font-size: 18px;
+        }
+
+        .clientAction-button {
+            margin: 10px;
+            padding: 3px;
+            height: 30px;
+            font-size: 16px;
+            text-decoration: none;
+            text-underline: none;
+        }
+    </style>
+</head>
+<body>
+<div class="client-field">
+    <span class="client-field__title">ФИО клиента: </span>
+    <span class="client-field__value" th:text="${client.getFullName()}">FULL NAME</span>
+</div>
+
+<div class="client-field">
+    <span class="client-field__title">Мобильный телефон клиента: </span>
+    <span class="client-field__value" th:text="${client.getPhone()}">PHONE</span>
+</div>
+
+<div class="client-field">
+    <span class="client-field__title">Email клиента: </span>
+    <span class="client-field__value" th:text="${client.getEmail()}">EMAIL</span>
+</div>
+
+<div class="client-field">
+    <span class="client-field__title">Время записи: </span>
+    <span class="client-field__value" th:text="${client.getVisitingDate()}">VISITING TIME</span>
+</div>
+
+<div class="client-field">
+    <span class="client-field__title">ФИО лечащего врача: </span>
+    <span class="client-field__value" th:text="${client.getDentistFullName()}">DENTIST FULL NAME</span>
+</div>
+
+<button class="clientAction-button">
+    <a th:href="@{/clients/{id}/edit(id=${client.getId()})}"
+       style="color: darkorange">
+        Изменить данные
+    </a>
+</button>
+<form th:action="@{/clients/{id}(id=${client.getId()})}" th:method="DELETE">
+    <input type="submit"
+           class="clientAction-button"
+           value="Удалить запись о клиенте"
+           style="color: red">
+</form>
+</body>
+</html>

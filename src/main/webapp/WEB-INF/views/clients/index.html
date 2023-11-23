@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Клиенты</title>
+</head>
+<body>
+    <p>Все клиенты приведены в списке: </p>
+    <br>
+    <ul>
+        <li th:each="client : ${clients}">
+            <a th:href="@{/clients/{id}(id=${client.getId()})}"
+                th:text="${client.getFullName() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                + client.getVisitingDate() + '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'
+                + client.getDentistFullName()}">
+                CLIENT INFO
+            </a>
+        </li>
+    </ul>
+    <br/>
+    <button>
+        <a th:href="@{/}">Home</a>
+    </button>
+</body>
+</html>
